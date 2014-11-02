@@ -311,6 +311,7 @@ int main(int argc, char** argv) {
 	signal(SIGINT, term);
 	signal(SIGTERM, term);
 	signal(SIGUSR1, reload_config);
+	signal(SIGHUP, reload_config);
 	jack_activate(client);
 	debug("JACK activated.\n");
 	while(true) { // collect garbage in main thread

@@ -7,7 +7,7 @@ LIBS =  -L"/usr/lib" -ljack
 INCS =  -I"/usr/include"
 CXXINCS =  $(INCS)
 BIN  = jackiir
-CXXFLAGS = $(CXXINCS) -O3 -ggdb -std=c++11
+CXXFLAGS = $(CXXINCS) -O3 -ggdb -std=c++11 -msse -mfpmath=sse -ffast-math
 CFLAGS = $(INCS) -O3 -ggdb
 SOURCE = main.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
