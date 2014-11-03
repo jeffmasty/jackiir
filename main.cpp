@@ -147,7 +147,7 @@ int process(jack_nframes_t nframes, void* data) {
 		buff_out = (sample_buffer_t)jack_port_get_buffer(ch->output_port, nframes);
 		memcpy(buff_out, buff_in, sizeof(sample_t)*nframes);
 		// remove denormals etc...
-		sample_t* tsmp = buff_out;
+		uint32_t* tsmp = (uint32_t*)buff_out;
 		for (int i=0; i<nframes; i++) {
 			uint32_t sample = *tsmp;
 			uint32_t smpexp = sample & 0x7F800000;
