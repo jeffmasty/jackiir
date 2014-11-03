@@ -27,6 +27,8 @@
 #include <sys/types.h>
 #include <jack/jack.h>
 
+#include "force_ftz.c"
+
 using namespace std;
 
 #define debug(...) fprintf(stderr, __VA_ARGS__)
@@ -302,6 +304,7 @@ void reload_config(int signum) {
 
 
 int main(int argc, char** argv) {
+	enable_ftz();
 	if (argc!=2) {
 		fprintf(stderr, "Usage: %s config_file\n", argv[0]);
 		return EXIT_FAILURE;
