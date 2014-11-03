@@ -146,6 +146,17 @@ int process(jack_nframes_t nframes, void* data) {
 		buff_in = (sample_buffer_t)jack_port_get_buffer(ch->input_port, nframes);
 		buff_out = (sample_buffer_t)jack_port_get_buffer(ch->output_port, nframes);
 		memcpy(buff_out, buff_in, sizeof(sample_t)*nframes);
+		// remove denormals etc...
+		sample_t* tsmp = buff_out;
+		for (int i=0; i<nframes; i++) {
+			uint32_t sample = *tsmp;
+			uint32_t smpexp = sample & 0x7F800000;
+			int smp_nan = smpexp < 0x7F800000;
+			int smp_den = smpexp > 0;
+			*tsmp = sample * (smp_nan & smp_den);
+			tsmp++;
+		}
+		// start filtering:
 		for (int fin=0; fin<ch->filters_count; fin++) {
 			BiquadFilter* fi = ch->filters[fin];
 			fi->processBuffer(nframes, buff_out);
